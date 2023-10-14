@@ -1,0 +1,14 @@
+go 1.20
+
+use (
+	./GORM_test
+	./Hertz_test
+	./copy_test
+	./easy_note
+	./go-by-example
+	./go-pprof-practice
+	./go-project-example
+	./go_test
+	./redis_course
+	./sort_algorithm
+)
