@@ -2,57 +2,124 @@ package main
 
 import (
 	"fmt"
-	"unsafe"
+	"reflect"
+	"sync"
+	"sync/atomic"
+	"time"
 )
 
-// 定义一个接口
-type TestInterface interface {
-	TestMethod()
-}
-
-// 定义一个结构体类型
-type MyStruct struct {
-	Name string
-}
-
-// 实现 TestInterface 接口的 TestMethod 方法
-func (m MyStruct) TestMethod() {
-	fmt.Println("TestMethod called")
-}
-
 func main() {
-	// 示例1：使用 eface
-	var e interface{}
-	myStruct := MyStruct{Name: "John"}
-	e = myStruct
 
-	// 获取 eface 的类型信息结构体指针
-	typeInfo := *(**struct {
-		_   uintptr
-		typ uintptr
-	})(unsafe.Pointer(&e))
+	go func() {
+		defer close(ch)
+		for i := 1; i <= 5; i++ {
+			ch <- i
+		}
+	}()
 
-	// 获取 eface 的值空间指针
-	value := *(*unsafe.Pointer)(unsafe.Pointer(uintptr(unsafe.Pointer(&e)) + unsafe.Sizeof(uintptr(0))))
+	for {
+		value, ok := <-ch
+		if !ok {
+			fmt.Println("通道已关闭")
+			break
+		}
+		fmt.Println("接收到数据:", value)
 
-	fmt.Printf("eface type: %T\n", typeInfo)
-	fmt.Printf("eface value: %v\n", *(*MyStruct)(value))
+	}
+}
 
-	// 示例2：使用 iface
-	var i TestInterface
-	i = myStruct
+func testGoroutine() {
+	var nums = []int{1, 2, 3}
+	var wg sync.WaitGroup
+	for i := range nums {
+		wg.Add(1)
+		go func() {
+			fmt.Print(nums[i])
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+}
 
-	// 获取 iface 的 itab 结构指针
-	itab := *(*struct {
-		_    uintptr
-		_    uintptr
-		typ  uintptr
-		data uintptr
-	})(unsafe.Pointer(&i))
+// 这才是正确的
+func testGoroutineFixed() {
+	var nums = []int{1, 2, 3}
+	var wg sync.WaitGroup
+	for i := range nums {
+		wg.Add(1)
+		go func(i int) {
+			fmt.Print(nums[i])
+			wg.Done()
+		}(i)
+	}
+	wg.Wait()
+}
 
-	// 获取 iface 的值空间指针
-	data := *(*unsafe.Pointer)(unsafe.Pointer(itab.data))
+func testDefer() {
+	i := 1
+	defer func() {
+		fmt.Println(i)
+	}()
+	i++
+}
 
-	fmt.Printf("iface static type: %T\n", itab.typ)
-	fmt.Printf("iface dynamic type: %T\n", *(*MyStruct)(data))
+var b uint64
+
+func testAddUint64() {
+	for i := 0; i < 10000; i++ {
+		// 原子加法
+		go atomic.AddUint64(&b, uint64(1))
+		// go func() {
+		// 	b = b + 1
+		// }()
+	}
+	time.Sleep(1 * time.Millisecond)
+	fmt.Println(b)
+
+}
+
+func testReflect() {
+	var x int = 8
+	v := reflect.ValueOf(x)
+	v.SetInt(24)
+	println(x)
+}
+
+// 上面传入的x只是一个副本
+func testReflectFixed() {
+	var x int = 8
+	v := reflect.ValueOf(&x).Elem()
+	v.SetInt(24)
+	println(x)
+}
+
+// 已关闭的channel 可以被读取 读完之后在读都是空值
+var ch = make(chan int, 2)
+
+func testChannel() {
+	ch <- 3
+	ch <- 4
+	ch <- 9
+	close(ch)
+}
+
+// 判断一个channel已经关闭
+func IsClosed() {
+	c := make(chan int)
+
+	go func() {
+		defer close(c)
+		for i := 1; i <= 5; i++ {
+			c <- i
+		}
+	}()
+
+	for {
+		value, ok := <-ch
+		if !ok {
+			fmt.Println("通道已关闭")
+			break
+		}
+		fmt.Println("接收到数据:", value)
+	}
 }

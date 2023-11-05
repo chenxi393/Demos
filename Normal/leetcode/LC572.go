@@ -1,14 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
 
 /*
 理清思路再写 不然凭感觉和样例 一步步试很大概览不对
@@ -69,12 +60,4 @@ func buildTree(nums []int) *TreeNode {
 	}
 
 	return root
-}
-
-func main() {
-	a := []int{4, 2, 3, 4, 5, 6, 7, 8, 9}
-	b := []int{4, 8, 9}
-	aa := buildTree(a)
-	bb := buildTree(b)
-	fmt.Println(isSubStructure(aa, bb))
 }

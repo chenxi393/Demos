@@ -1,0 +1,23 @@
+go 1.20
+
+use (
+	./ByteDance_test/GORM_test
+	./ByteDance_test/Hertz_test
+	./ByteDance_test/copy_test
+	./ByteDance_test/easy_note
+	./ByteDance_test/go-by-example
+	./ByteDance_test/go-pprof-practice
+	./ByteDance_test/go-project-example
+	./ByteDance_test/go_test
+	./ByteDance_test/redis_course
+	./ByteDance_test/sort_algorithm
+	./ElasticSearch
+	./Normal/go
+	./Normal/leetcode
+	./distributed
+	./kafka_test
+	./otel-test
+	./rabbitmq
+	./sever_client
+	./websocket
+)
