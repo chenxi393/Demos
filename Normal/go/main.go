@@ -9,23 +9,6 @@ import (
 )
 
 func main() {
-
-	go func() {
-		defer close(ch)
-		for i := 1; i <= 5; i++ {
-			ch <- i
-		}
-	}()
-
-	for {
-		value, ok := <-ch
-		if !ok {
-			fmt.Println("通道已关闭")
-			break
-		}
-		fmt.Println("接收到数据:", value)
-
-	}
 }
 
 func testGoroutine() {
@@ -91,35 +74,4 @@ func testReflectFixed() {
 	v := reflect.ValueOf(&x).Elem()
 	v.SetInt(24)
 	println(x)
-}
-
-// 已关闭的channel 可以被读取 读完之后在读都是空值
-var ch = make(chan int, 2)
-
-func testChannel() {
-	ch <- 3
-	ch <- 4
-	ch <- 9
-	close(ch)
-}
-
-// 判断一个channel已经关闭
-func IsClosed() {
-	c := make(chan int)
-
-	go func() {
-		defer close(c)
-		for i := 1; i <= 5; i++ {
-			c <- i
-		}
-	}()
-
-	for {
-		value, ok := <-ch
-		if !ok {
-			fmt.Println("通道已关闭")
-			break
-		}
-		fmt.Println("接收到数据:", value)
-	}
 }

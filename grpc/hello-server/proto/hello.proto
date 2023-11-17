@@ -1,0 +1,30 @@
+// 规定文件的语法 
+syntax = "proto3";
+
+// 定义生成的go文件在哪一个目录哪个包里
+option go_package = ".;service";
+
+// 定义一个服务 也就是函数
+service SayHello {
+    rpc SayHello(HelloRequest) returns (HelloResponse) {}
+}
+
+// 定义一个消息类型 类似于结构体
+message HelloRequest {
+  // 字段 1，类型为字符串，标识为 1
+  string name = 1;
+
+  // 字段 2，类型为整数，标识为 2
+  int64 age = 2;
+
+  // 字段 3，类型为字符串，标识为 3，表示电子邮件地址
+  string email = 3;
+
+  // repeated 会变成切片
+  repeated string like = 4;
+}
+
+message HelloResponse {
+    // 字段 1，类型为字符串，标识为 1
+    string responseMsg = 1;
+}
