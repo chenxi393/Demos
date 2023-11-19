@@ -1,6 +1,11 @@
-module grpc
+module grpctest
 
 go 1.20
+
+require (
+	google.golang.org/grpc v1.59.0
+	google.golang.org/protobuf v1.31.0
+)
 
 require (
 	github.com/golang/protobuf v1.5.3 // indirect
@@ -8,7 +13,4 @@ require (
 	golang.org/x/sys v0.14.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20231106174013-bbf56f31fb17 // indirect
-	google.golang.org/grpc v1.59.0 // indirect
-	google.golang.org/grpc/examples v0.0.0-20231115232036-7935c4f75941 // indirect
-	google.golang.org/protobuf v1.31.0 // indirect
 )

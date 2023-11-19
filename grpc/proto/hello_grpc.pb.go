@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.12.4
-// source: hello.proto
+// source: proto/hello.proto
 
 package service
 
@@ -35,7 +35,6 @@ func NewSayHelloClient(cc grpc.ClientConnInterface) SayHelloClient {
 
 func (c *sayHelloClient) SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloResponse, error) {
 	out := new(HelloResponse)
-	// 业务逻辑
 	err := c.cc.Invoke(ctx, "/SayHello/SayHello", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -102,5 +101,5 @@ var SayHello_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "hello.proto",
+	Metadata: "proto/hello.proto",
 }
