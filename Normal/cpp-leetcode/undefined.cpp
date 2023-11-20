@@ -12,6 +12,5 @@ int main()
     for (auto t : mm) {
         printf(" key = %d address = %p value = %d\n", t.first, t.second, *t.second);
     }
-
     return 0;
 }
