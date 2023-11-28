@@ -1,0 +1,30 @@
+version: "3"
+services:
+  redis-master:
+    image: redis:latest
+    ports:
+      - 3001:6379
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      redis_clutar:
+        ipv4_address: 192.168.31.100
+
+  redis-slave:
+    image: redis:latest
+    ports:
+      - 3002:6379
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      redis_clutar:
+        ipv4_address: 192.168.31.101
+
+networks:
+  redis_clutar:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.31.0/24"

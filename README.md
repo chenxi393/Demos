@@ -14,5 +14,7 @@
 | Normal                 | leetcode刷的一些题 和一些编程语言的问题                  |
 | otel-test              | OpenTelemetry的简单使用                                  |
 | rebbitmq               | MQ简单使用                                               |
+| redis-cluster          | redis集群的简单配置                                      |
 | server_client          | go net/http构建服务端客户端即时通信 上面go课程的入门项目 |
+| ThreadPool             | C/C++ 实现线程池 生产者消费者模型 mutex cond             |
 | websocket              | 尝试websocket                                            |
