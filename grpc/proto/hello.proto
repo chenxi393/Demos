@@ -1,46 +1,24 @@
-// 规定文件的语法 
-syntax = "proto3";
+syntax = "proto3"; // 固定语法前缀
 
-// 定义生成的go文件在哪一个目录哪个包里
-option go_package = ".;service";
 
-// 定义一个服务 也就是函数
-service RouteGuide {
-    // Obtains the feature at a given position.
-    rpc GetFeature(Point) returns (Feature) {}
+option go_package = ".;proto";  // 指定生成的Go代码在你项目中的导入路径
 
-    // Obtains the Features available within the given Rectangle.  Results are
-    // streamed rather than returned at once (e.g. in a response message with a
-    // repeated field), as the rectangle may cover a large area and contain a
-    // huge number of features.
-    rpc ListFeatures(Rectangle) returns (stream Feature) {}
+//package pb; // 包名
 
-    // Accepts a stream of Points on a route being traversed, returning a
-    // RouteSummary when traversal is completed.
-    rpc RecordRoute(stream Point) returns (RouteSummary) {}
-
-    // 服务端和客户端均支持流式传输 在数据比较大的时候好用
-    // 例如 客户端一点点打印数据 而不用等待服务端全部返回
-    // Accepts a stream of RouteNotes sent while a route is being traversed,
-    // while receiving other RouteNotes (e.g. from other users).
-    rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
-
+// 定义服务
+service SayHello {
+    // SayHello 方法
+    rpc SayHello (HelloRequest) returns (HelloResponse) {}
 }
 
-// 定义一个消息类型 类似于结构体
-message Point {
-    int32 latitude = 1;
-    int32 longitude = 2;
-}
 
-message Feature{
+// 请求消息
+message HelloRequest {
     string name = 1;
 }
 
-message Rectangle{
-    string name = 1;
-}
 
-message RouteNote{
-
+// 响应消息
+message HelloResponse {
+    string reply = 1;
 }

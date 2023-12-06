@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.12.4
-// source: proto/hello.proto
+// source: grpc/proto/hello.proto
 
-package service
+package proto
 
 import (
 	context "context"
@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SayHelloClient interface {
+	// SayHello 方法
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloResponse, error)
 }
 
@@ -46,6 +47,7 @@ func (c *sayHelloClient) SayHello(ctx context.Context, in *HelloRequest, opts ..
 // All implementations must embed UnimplementedSayHelloServer
 // for forward compatibility
 type SayHelloServer interface {
+	// SayHello 方法
 	SayHello(context.Context, *HelloRequest) (*HelloResponse, error)
 	mustEmbedUnimplementedSayHelloServer()
 }
@@ -101,5 +103,5 @@ var SayHello_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/hello.proto",
+	Metadata: "grpc/proto/hello.proto",
 }
