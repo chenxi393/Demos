@@ -19,11 +19,10 @@ int findMax(const vector<int>& s, int l, int r)
         } else {
             return findMax(s, l + 1, r - 1);
         }
-    }else if (s[m] > s[m - 1] && s[m] > s[m + 1]) {
+    } else if (s[m] > s[m - 1] && s[m] > s[m + 1]) {
         return s[m];
     } else if (s[m] > s[m - 1]) {
     }
-    
 }
 
 int main()

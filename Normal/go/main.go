@@ -2,15 +2,75 @@ package main
 
 import (
 	"fmt"
+	"normal/poll"
 	"reflect"
 	"sync"
 	"sync/atomic"
 	"time"
 )
 
-func main() {
+/*
+这个错误是因为在Go语言中，接口赋值的规则是：
+如果一个类型实现了某个接口的所有方法，那么该类型的实例（值类型或指针类型）就可以赋值给该接口。
+如果一个类型实现了某个接口的所有方法，但是这些方法的接收者是指针类型而不是该类型本身的值类型，那么只有该类型的指针类型才可以赋值给该接口。
+*/
+type F interface {
+	f()
 }
 
+type S1 struct{}
+
+func (s S1) f() {}
+
+type S2 struct{}
+
+func (s *S2) f() {}
+
+func main() {
+	poll.Test_Poll()
+}
+
+func testInterface() {
+	// s1Val := S1{}
+	// s1Ptr := &S1{}
+	// s2Val := S2{}
+	// s2Ptr := &S2{}
+
+	// var i F
+	// i = s1Val
+	// i = s1Ptr
+	// i = s2Val
+	// i = s2Ptr
+
+	// _ = i
+}
+
+func testSlice() {
+	a := make([]int, 0)
+	b := make([]int, 0, 1)
+	// cap len %p
+	fmt.Println("a.cap:", cap(a), "a.len:", len(a))
+	fmt.Println("b.cap:", cap(b), "b.len:", len(b))
+	fmt.Printf("a.p = %p b.p= %p\n", a, b)
+	a = append(a, 1)
+	b = append(b, 1)
+	// cap len %p
+	fmt.Println("a.cap:", cap(a), "a.len:", len(a))
+	fmt.Println("b.cap:", cap(b), "b.len:", len(b))
+	fmt.Printf("a.p = %p b.p= %p\n", a, b)
+	// len(a)= 1 cap(a)=1
+	// len(b)= 1 cap(b)=1
+	// a的地址变化 b的地址不变
+	a = append(a, 1)
+	// cap len
+	fmt.Println("a.cap:", cap(a), "a.len:", len(a))
+	fmt.Println("b.cap:", cap(b), "b.len:", len(b))
+	fmt.Printf("a.p = %p b.p= %p\n", a, b)
+	// len(a)= 2 cap(a)=2
+	// 求各阶段的值
+	// 总结扩容是*2 不是*2+1 cap*2
+	// append扩容 地址也会改变
+}
 func testGoroutine() {
 	var nums = []int{1, 2, 3}
 	var wg sync.WaitGroup
