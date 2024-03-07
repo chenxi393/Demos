@@ -20,7 +20,7 @@ func main() {
 		vv := v
 		go func() {
 			defer wg.Done()
-			ans1 += v  // v的作用域是整个for循环期间
+			ans1 += v  // v的作用域是整个for循环期间 似乎go 1.22 更改了v的作用域
 			ans2 += vv // 这里不是原子相加
 			//fmt.Printf("v = %d vv=%d\n", v, vv)
 			// 但是这里打印vv 肯定是都有的了 可以试试 因为vv的作用域是单次循环内

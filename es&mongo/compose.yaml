@@ -13,6 +13,14 @@ services:
       discovery.type: single-node
       ES_JAVA_OPTS: "-Xms84m -Xmx512m"
       TZ: Asia/Shanghai
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123456
 
 volumes:
   es_test_data:
