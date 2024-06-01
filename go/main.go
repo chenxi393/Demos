@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"normal/poll"
+	"go/poll"
 	"reflect"
 	"sync"
 	"sync/atomic"
