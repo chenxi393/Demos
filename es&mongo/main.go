@@ -3,6 +3,10 @@ package main
 import "fmt"
 
 func main() {
+	ESTest()
+}
+
+func MongoTest() {
 	close := InitMongoDB()
 	defer close()
 	err := CreateMessage(1, 2, "123")

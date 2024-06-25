@@ -99,16 +99,3 @@ int lengthOfLongestSubstring(string s)
     }
     return maxSubLength;
 }
-
-// 评论区最终版本 官解为什么这么快 自己的这么慢？？？
-// 发现有重复字符时，可以直接把左指针移动到重复字符的下一个位置
-int lengthOfLongestSubstringFix(string s)
-{
-
-}
-int main()
-{
-    string s = "aab";
-    cout << lengthOfLongestSubstringFix(s) << endl;
-    return 0;
-}

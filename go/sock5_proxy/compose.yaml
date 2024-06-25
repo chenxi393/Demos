@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  myapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        INSTALL_EXTRA_PACKAGES: "true"
+    image: my-golang-app
+    environment:
+      - TZ=Asia/Shanghai
+    container_name: my-golang-app-container
+    ports:
+      - "8080:8080"  # 如果你的应用需要暴露端口
