@@ -3,7 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	ESTest()
+	mysql2ES()
+
 }
 
 func MongoTest() {

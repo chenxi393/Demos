@@ -1,4 +1,4 @@
-package poll
+package pool
 
 import (
 	"fmt"
@@ -13,6 +13,8 @@ type Work struct {
 	arg interface{}
 }
 
+// 是不是应该基于 信号量的 唤醒机制
+// 看下 go pool ants 的实现
 type Poll struct {
 	queue []Work
 	ch    chan bool
@@ -46,7 +48,7 @@ func (p *Poll) AddWork(w Work) {
 	p.lock.Lock()
 	p.queue = append(p.queue, w)
 	p.lock.Unlock()
-	p.ch <- true
+	p.ch <- true // 这里发送会阻塞 其实要让work 自己探究 有没有阻塞的能力 可以探究一下 go_pool 的实现
 }
 
 func Test_Poll() {

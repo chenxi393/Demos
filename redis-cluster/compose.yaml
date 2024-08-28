@@ -17,7 +17,7 @@ services:
       - 3002:6379
     volumes:
       - ./redis.conf:/usr/local/etc/redis/redis.conf
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    command: ["redis-server", "--slaveof redis-master 6379"]
     networks:
       redis_clutar:
         ipv4_address: 192.168.31.101
