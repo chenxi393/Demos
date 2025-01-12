@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"go_test/poll"
 	"reflect"
 	"sync"
 	"sync/atomic"
@@ -27,9 +26,28 @@ type S2 struct{}
 func (s *S2) f() {}
 
 func main() {
-	poll.Test_Poll()
+	var (
+		wg    = &sync.WaitGroup{}
+		count int
+	)
+	wg.Add(100)
+	for i := 1; i <= 100; i++ {
+		defer wg.Done() // 死锁了
+		go func() {
+			count += i
+		}()
+	}
+	wg.Wait()
+	fmt.Println(count)
+	fmt.Println(demo(1, 2))
 }
-
+func demo(a, b int) (c int) {
+	defer func() {
+		c++ // 这里还是会加加 临时变量
+	}()
+	c++
+	return a + b
+}
 func testInterface() {
 	// s1Val := S1{}
 	// s1Ptr := &S1{}
